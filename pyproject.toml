@@ -10,6 +10,8 @@ python = ">=3.10,<3.13"
 pandas = "^2.1.1"
 streamlit = "^1.27.2"
 streamlit-lottie = "^0.0.5"
+ipykernel = "^6.25.2"
+st-pages = "^0.4.5"
 
 
 [build-system]
