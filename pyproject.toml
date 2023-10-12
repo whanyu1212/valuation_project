@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "valuation-project"
+version = "0.1.0"
+description = "valuing mutually exclusive capital projects"
+authors = ["hy"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+pandas = "^2.1.1"
+streamlit = "^1.27.2"
+streamlit-lottie = "^0.0.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
