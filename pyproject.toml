@@ -12,6 +12,9 @@ streamlit = "^1.27.2"
 streamlit-lottie = "^0.0.5"
 ipykernel = "^6.25.2"
 st-pages = "^0.4.5"
+scipy = "^1.11.3"
+streamlit-aggrid = "^0.3.4.post3"
+st-annotated-text = "^4.0.1"
 
 
 [build-system]
