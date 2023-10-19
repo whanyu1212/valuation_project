@@ -1,11 +1,15 @@
 import pandas as pd
 import streamlit as st
 from annotated_text import annotated_text
+from streamlit_extras.colored_header import colored_header
+from streamlit_extras.metric_cards import style_metric_cards
+from streamlit_extras.stylable_container import stylable_container
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, DataReturnMode, JsCode
 from streamlit_lottie import st_lottie
 
 st.set_page_config(layout="wide")
 
+# Global variables
 st_lottie(
     "https://lottie.host/7cf4fc5c-ae1a-44d0-99ee-9eb9230341e8/6xXWRb5Zft.json",
     height=300,
@@ -24,9 +28,19 @@ with c0:
 
 with c2:
     st.title("Valuing Mutually Exclusive Capital Projects")
+    st.text("")
+    st.text("")
 
-st.text("")
-st.markdown("##### Problem Statement:")
+##########################################################################################
+
+
+# Main page content for Home
+# * Problem Statement
+colored_header(
+    label="Problem Statement",
+    description="Which project to undertake? Lease or build?",
+    color_name="gray-70",
+)
 annotated_text(
     "Phuket Beach Hotel is presented with a capital budgeting dilemma regarding\
     its unutilized space. Management is torn between",
@@ -42,59 +56,127 @@ annotated_text(
     and aligns with the hotel's future vision?",
 )
 
-sidebar = st.sidebar.title("User Input")
-with sidebar:
-    tax = st.slider("Tax rate", 0.0, 0.20, 0.1)
-    planet_investment_amount = st.slider(
-        "Planet Investment Amount", 770000, 1000000, 770000
-    )
-    patronage_loss = st.slider("Patronage Loss", 0.0, 0.25, 0.1)
+st.text("")
+st.text("")
+
+##########################################################################################
+
+# * Contextual Information
+colored_header(
+    label="Contextual Information",
+    description="Which project to undertake? Lease or build?",
+    color_name="gray-70",
+)
+st.text("")
+st.text("")
+
+# * Capital Structure
+c0, c1, c2 = st.columns([0.9, 1, 4])
+with c0:
+    with stylable_container(
+        key="container_with_border",
+        css_styles="""
+                {   background-color: #ADD8E6;
+                    color: white;
+                    # border: 1px solid rgba(49, 51, 63, 0.2);
+                    border-radius: 0.5rem;
+                    padding: calc(1em - 1px);
+                }
+                """,
+    ):
+        st.markdown("##### Capital Structure:")
+st.text("")
+col1, col2, col3, col4, col5 = st.columns(5)
+col1.metric("Debt Proportion", "25%", "")
+col2.metric("Interest Rate", "10%", "")
+col3.metric("Equity Proportion", "75%", "")
+col4.metric("Cost of Equity", "12%", "")
+col5.metric("Tax Rate", "30%", "")
+style_metric_cards(border_left_color="#ADD8E6")
+st.text("")
+st.latex(
+    r"""
+    \text{WACC} = \frac{E}{V} * R_e + \frac{D}{V} * R_d * (1 - T_c)\\
+    """
+)
+st.latex(r"""0.75 * 0.12 + 0.25 * 0.10 * (1 - 0.30) = 0.115""")
+st.caption("Remark: We will be using WACC = 11.5% to discount the cash flows")
 st.divider()
-st.markdown("#### Project A: Planet Karaoke Pub")
-data = {
-    "Year": [0, 1, 2, 3, 4],
-    "Initial Investment": [-1 * planet_investment_amount - 55000, 0, 0, 0, 0],
-    "Net Room Revenue": [0, 13200000, 13464000, 14137000, 14844000],
-    "Rental Revenue": [
-        0,
-        170000 * 12,
-        170000 * 12,
-        170000 * 1.05 * 12,
-        170000 * 1.05 * 12,
+
+##########################################################################################
+# * Options
+
+c0, c1, c2 = st.columns([0.9, 1, 4])
+with c0:
+    with stylable_container(
+        key="container_with_border",
+        css_styles="""
+                {   background-color: #ADD8E6;
+                    color: white;
+                    # border: 1px solid rgba(49, 51, 63, 0.2);
+                    border-radius: 0.5rem;
+                    padding: calc(1em - 1px);
+                }
+                """,
+    ):
+        st.markdown("##### Project Details:")
+st.text("")
+
+
+project_details = {
+    "Details": [
+        "Life Span",
+        "Upfront Investment",
+        "Depreciation",
+        "Repair and Maintenance Cost",
+        "Expenses",
+        "Annula Capital Expenditure",
     ],
-    "Patronage Loss": [
-        0,
-        -1 * 13200000 * patronage_loss,
-        -1 * 13464000 * patronage_loss,
-        -1 * 14137000 * patronage_loss,
-        -1 * 14844000 * patronage_loss,
+    "Planet Karaoke Pub (Lease)": [
+        "4 Years",
+        "770,000 - 1,000,000 Baht",
+        "Straight line depreciation with 0 salvage value",
+        "10,000 Baht",
+        "Pub will pay for all expenses",
+        "N/A",
     ],
-    "Operating Expenses": [0, 100000, 100000, 100000, 100000],
-    "Depreciation": [
-        0,
-        planet_investment_amount / 4,
-        planet_investment_amount / 4,
-        planet_investment_amount / 4,
-        planet_investment_amount / 4,
+    "Beach Karaoke Pub (Build)": [
+        "6 Years",
+        "800,00 - 1,200,000 Baht",
+        "Straight line depreciation with 0 salvage value",
+        "10,000 Baht",
+        "Food & Beverage: 25% of sales, Salaries: 16% of sales, Others: 22% of sales",
+        "Equal to depreciation",
     ],
 }
+df = pd.DataFrame(project_details)
+# st.dataframe(
+#     pd.DataFrame(project_details).set_index("Details"), use_container_width=True
+# )
 
-# Create DataFrame
-df = pd.DataFrame(data)
+gb = GridOptionsBuilder.from_dataframe(df)
 
-df["Net Rental Revene"] = df["Rental Revenue"] + df["Patronage Loss"]
-df["EBT"] = df["Net Rental Revene"] - df["Depreciation"]
-df["Net Income After Tax"] = df["EBT"] * (1 - 0.3)
-df["Operating Cash Flow"] = df["Net Income After Tax"] + df["Depreciation"]
-df["Discounted Cash Flow"] = df["Operating Cash Flow"] / (1 + 0.115) ** df["Year"]
+gb.configure_column("Details", type=["textColumn", "textColumnFilter"], width=80)
 
-df_transposed = (
-    df.T.iloc[1:, :].set_axis(
-        ["Year 0", "Year 1", "Year 2", "Year 3", "Year 4"], axis=1
-    )
-    # .style.format("{:,.0f}")
+cellsytle_jscode = JsCode(
+    """
+function(params) {
+    return {
+        'color': 'gray',
+        'backgroundColor': 'white'
+    }
+};
+"""
 )
-# Set 'Year' as the index
-# df.set_index("Year", inplace=True)
+gb.configure_column("Details", cellStyle=cellsytle_jscode)
 
-st.dataframe(df_transposed, use_container_width=True)
+response = AgGrid(
+    df,
+    editable=True,
+    gridOptions=gb.build(),
+    data_return_mode="filtered_and_sorted",
+    update_mode="no_update",
+    fit_columns_on_grid_load=True,
+    theme="alpine",
+    allow_unsafe_jscode=True,
+)

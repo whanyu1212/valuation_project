@@ -15,6 +15,7 @@ st-pages = "^0.4.5"
 scipy = "^1.11.3"
 streamlit-aggrid = "^0.3.4.post3"
 st-annotated-text = "^4.0.1"
+streamlit-extras = "^0.3.4"
 
 
 [build-system]
