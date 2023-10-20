@@ -71,8 +71,32 @@ st.text("")
 st.text("")
 side = st.sidebar
 with side:
+    st.subheader("About:")
+    st.markdown(
+        """Introducing our Capital Project Valuation Dashboard, 
+        tailored to bring clarity to the specific comparison of 
+        2 mutually exclusive capital projects for Phuket Beach Hotel. 
+        The dashboard is designed to help the management team make 
+        an informed decision on which project to undertake. 
+        The dashboard is built with Streamlit, 
+        a Python framework for building data apps."""
+    )
+    for _ in range(10):
+        st.text("")
+    st.lottie(
+        "https://lottie.host/9cfe5bca-7b5c-4957-b114-582f81e20201/2idRRfzhi2.json",
+        height=100,
+        width=200,
+        speed=1,
+        key="initial",
+    )
+    st.text("")
+    st.text("")
     link = ":point_right: Github Repository for the dashboard: [link](https://github.com/whanyu1212/valuation_project)"
     st.markdown(link, unsafe_allow_html=True)
+
+    link_2 = ":point_right: Documentation for Custom Components: [link](https://docs.streamlit.io/library/components)"
+    st.markdown(link_2, unsafe_allow_html=True)
 
 
 # * Capital Structure

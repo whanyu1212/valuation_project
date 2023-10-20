@@ -27,9 +27,13 @@ with sidebar:
         key="planet_investment_amount",
     )
     st.text("")
-    tax = st.slider("Tax rate", 0.0, 0.30, 0.3, key="tax")
-    st.text("")
-    patronage_loss = st.slider("Patronage Loss", 0.0, 0.25, 0.25, key="patronage_loss")
+    c0, c1 = st.columns(2)
+    with c0:
+        tax = st.number_input("Tax Rate", min_value=0.0, max_value=1.0, value=0.3)
+    with c1:
+        patronage_loss = st.number_input(
+            "Patronage Loss", min_value=0.0, max_value=1.0, value=0.25
+        )
     st.text("")
     st.divider()
     st.markdown("#### Beach Karaoke Pub Inputs:")
