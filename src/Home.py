@@ -69,6 +69,11 @@ colored_header(
 )
 st.text("")
 st.text("")
+side = st.sidebar
+with side:
+    link = ":point_right: Github Repository for the dashboard: [link](https://github.com/whanyu1212/valuation_project)"
+    st.markdown(link, unsafe_allow_html=True)
+
 
 # * Capital Structure
 c0, c1, c2 = st.columns([0.9, 1, 4])

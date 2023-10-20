@@ -180,7 +180,7 @@ df_1_transposed = (
 )
 
 
-c0, c1, c2 = st.columns([0.9, 1, 4])
+c0, c1, c2 = st.columns([1, 1, 3])
 with c0:
     with stylable_container(
         key="container_with_border",
@@ -295,7 +295,7 @@ gb.configure_column(
     precision=2,
 )
 
-c0, c1, c2 = st.columns([0.9, 1, 4])
+c0, c1, c2 = st.columns([1, 1, 3])
 with c0:
     with stylable_container(
         key="container_with_border",
