@@ -17,6 +17,7 @@ streamlit-aggrid = "^0.3.4.post3"
 st-annotated-text = "^4.0.1"
 streamlit-extras = "^0.3.4"
 lightgbm = "^4.1.0"
+plotly = "^5.17.0"
 
 
 [build-system]
