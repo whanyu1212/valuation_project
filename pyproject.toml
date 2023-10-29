@@ -19,6 +19,7 @@ streamlit-extras = "^0.3.4"
 lightgbm = "^4.1.0"
 plotly = "^5.17.0"
 streamlit-pills = "^0.3.0"
+statsmodels = "^0.14.0"
 
 
 [build-system]
