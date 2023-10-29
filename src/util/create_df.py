@@ -80,7 +80,7 @@ def compute_financials_beach(beach_investment_amount, tax):
             5150880,
             5408424,
             5678845,
-            5962537.25,
+            5962787.46,
         ],
         "25% Patronage Rate": [0, 1650000, 1683000, 1767125, 1855500, 1892500, 1930375],
         "Food & Beverage Cost": [
@@ -101,7 +101,7 @@ def compute_financials_beach(beach_investment_amount, tax):
             1249345.9,
             1311813.24,
         ],
-        "Repair/Maintenance Cost": [0, 10000, 10000, 10000, 10000, 10000, 10000],
+        "Repair/Maintenance": [0, 10000, 10000, 10000, 10000, 10000, 10000],
         "Depreciation": [
             0,
             -1 * (-1 * beach_investment_amount - 900000) / 6,
@@ -120,12 +120,15 @@ def compute_financials_beach(beach_investment_amount, tax):
         - df["Food & Beverage Cost"]
         - df["Other Expenses"]
         - df["25% Patronage Rate"]
-        - df["Repair/Maintenance Cost"]
+        - df["Repair/Maintenance"]
         - df["Depreciation"]
     )
 
     df["Net Income"] = df["EBT"] * (1 - tax)
-    df["Operating Cash Flow"] = df["Net Income"] + df["Depreciation"]
+    df["Capital Expenditure"] = df["Depreciation"]
+    df["Operating Cash Flow"] = (
+        df["Net Income"] + df["Depreciation"] - df["Capital Expenditure"]
+    )
 
     return df
 

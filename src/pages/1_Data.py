@@ -14,13 +14,13 @@ from util.sidebar import generate_sidebar
 
 st.set_page_config(layout="wide")
 
-st.lottie(
-    "https://lottie.host/7e4b0ee3-742b-47c2-a89b-a9e481dbf8bb/qWKTaucC6Y.json",
-    height=300,
-    width=600,
-    speed=1,
-    key="initial",
-)
+# st.lottie(
+#     "https://lottie.host/d377029b-f163-4e75-ac57-53ee2433b870/8v3sihrhak.json",
+#     height=300,
+#     width=800,
+#     speed=1,
+#     key="initial",
+# )
 # * Side bar content
 
 # Generate the sidebar and get the values
@@ -29,7 +29,13 @@ st.lottie(
     tax,
     patronage_loss_rate,
     beach_investment_amount,
+    debt,
+    cost_of_equity,
+    interest_rate,
 ) = generate_sidebar()
+##########################################################################################
+st.info("test")
+st.text("")
 ##########################################################################################
 # * Cash Flow for Planet Karaoke Pub
 

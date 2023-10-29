@@ -2499,6 +2499,20 @@ files = [
 streamlit = ">=0.63"
 
 [[package]]
+name = "streamlit-pills"
+version = "0.3.0"
+description = "💊 A Streamlit component to show clickable pills/badges"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "streamlit-pills-0.3.0.tar.gz", hash = "sha256:47668ad4fd8c137b203ee1aec9d9d44ed8b2ff7ded9f586984f204be2eac772f"},
+    {file = "streamlit_pills-0.3.0-py3-none-any.whl", hash = "sha256:b66fdf7b1820c09b751a76ef1ae01ab93221d0c2c2d1cd489b711b9afaae0513"},
+]
+
+[package.dependencies]
+streamlit = ">=1.12.0,<2.0.0"
+
+[[package]]
 name = "streamlit-toggle-switch"
 version = "1.0.2"
 description = "Creates a customizable toggle"
@@ -2754,4 +2768,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "726e4e99322af06276f75a09456eab348b15761a1007b7e27b7afc55536eb67e"
+content-hash = "179a5201a6a6cbb7ef356d418ef822ac87100ea6f5e2e44a824130f58a9e35bd"

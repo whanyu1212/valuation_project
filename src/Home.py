@@ -81,7 +81,7 @@ with side:
         The dashboard is built with Streamlit, 
         a Python framework for building data apps."""
     )
-    for _ in range(10):
+    for _ in range(5):
         st.text("")
     st.lottie(
         "https://lottie.host/9cfe5bca-7b5c-4957-b114-582f81e20201/2idRRfzhi2.json",
@@ -92,10 +92,13 @@ with side:
     )
     st.text("")
     st.text("")
-    link = ":point_right: Github Repository for the dashboard: [link](https://github.com/whanyu1212/valuation_project)"
+    problem_set_link = ":point_right: Problem Set: [link](https://services.hbsp.harvard.edu/api/courses/1105066/items/HKU145-PDF-ENG/sclinks/8ef206d051509f3cd9efae792113e6b5)"
+    st.markdown(problem_set_link, unsafe_allow_html=True)
+
+    link = ":point_right: Github Repository: [link](https://github.com/whanyu1212/valuation_project)"
     st.markdown(link, unsafe_allow_html=True)
 
-    link_2 = ":point_right: Documentation for Custom Components: [link](https://docs.streamlit.io/library/components)"
+    link_2 = ":point_right: Documentation for Components: [link](https://docs.streamlit.io/library/components)"
     st.markdown(link_2, unsafe_allow_html=True)
 
 
