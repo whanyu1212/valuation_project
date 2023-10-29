@@ -44,6 +44,10 @@ st.set_page_config(layout="wide")
     interest_rate,
 ) = generate_sidebar()
 
+# Calculate WACC
+wacc = (1 - debt) * cost_of_equity + debt * interest_rate * (1 - tax)
+
+
 ##########################################################################################
 # * Cash Flow for Planet Karaoke Pub
 
@@ -60,6 +64,7 @@ st.info(analysis_description)
 st.text("")
 st.markdown("###### Formula:")
 st.latex(npv_irr_payback)
+st.write("WACC: ", wacc)
 st.text("")
 st.text("")
 st.text("")
@@ -76,11 +81,9 @@ beach_cash_flow = [df_1_transposed["Year 0"][0]] + df_1_transposed.iloc[-1:, 2:]
 ].tolist()
 
 
-# beach_cash_flow = [ round(elem,2) for elem in beach_cash_flow ]
-
 # Compte NPV
-planet_npv = compute_NPV(planet_cash_flow)
-beach_npv = compute_NPV(beach_cash_flow)
+planet_npv = compute_NPV(planet_cash_flow, wacc)
+beach_npv = compute_NPV(beach_cash_flow, wacc)
 
 # Compte IRR
 planet_irr = compute_IRR(planet_cash_flow)
@@ -103,11 +106,11 @@ selected = pills("", ["NPV", "IRR", "Payback Period"], ["💲", "🔣", "	💹"]
 if selected == "NPV":
     plot_col1, plot_col2 = st.columns(2)
     with plot_col1:
-        waterfall_fig = create_waterfall_chart(planet_cash_flow, 0.115, "Planet Karaoke Pub")
+        waterfall_fig = create_waterfall_chart(planet_cash_flow, wacc, "Planet Karaoke Pub")
         st.plotly_chart(waterfall_fig, use_container_width=True, theme="streamlit")
 
     with plot_col2:
-        waterfall_fig = create_waterfall_chart(beach_cash_flow, 0.115, "Beach Karaoke Pub")
+        waterfall_fig = create_waterfall_chart(beach_cash_flow, wacc, "Beach Karaoke Pub")
         st.plotly_chart(waterfall_fig, use_container_width=True, theme="streamlit")
 
 

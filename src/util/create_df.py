@@ -154,3 +154,32 @@ def transpose_and_format_beach(df):
         ]
     )
     return df_transposed
+
+
+def normalize_values(npv_A, npv_B, irr_A, irr_B, payback_A, payback_B):
+    # NPV and IRR normalization
+    max_npv = max(npv_A, npv_B)
+    max_irr = max(irr_A, irr_B)
+
+    normalized_npv_A = npv_A / max_npv
+    normalized_npv_B = npv_B / max_npv
+
+    normalized_irr_A = irr_A / max_irr
+    normalized_irr_B = irr_B / max_irr
+
+    # Payback normalization (inverse since lower is better)
+    max_payback = max(payback_A, payback_B)
+
+    normalized_payback_A = max_payback / payback_A
+    normalized_payback_B = max_payback / payback_B
+
+    # Create DataFrame to store values
+    data = {
+        "Project": ["Planet Karaoke Pub", "Beach Karaoke Pub"],
+        "NPV": [normalized_npv_A, normalized_npv_B],
+        "IRR": [normalized_irr_A, normalized_irr_B],
+        "Payback": [normalized_payback_A, normalized_payback_B],
+    }
+    df = pd.DataFrame(data)
+
+    return df

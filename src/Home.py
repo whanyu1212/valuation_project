@@ -131,8 +131,8 @@ st.latex(
     \text{WACC} = \frac{E}{V} * R_e + \frac{D}{V} * R_d * (1 - T_c)\\
     """
 )
-st.latex(r"""0.75 * 0.12 + 0.25 * 0.10 * (1 - 0.30) = 0.115""")
-st.caption("Remark: We will be using WACC = 11.5% to discount the cash flows")
+st.latex(r"""0.75 * 0.12 + 0.25 * 0.10 * (1 - 0.30) = 0.1075""")
+st.caption("Remark: We will be using WACC = 10.75% to discount the cash flows")
 st.divider()
 
 ##########################################################################################

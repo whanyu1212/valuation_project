@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import fsolve
 
 
-def compute_NPV(cash_flows, discount_rate=0.115):
+def compute_NPV(cash_flows, discount_rate):
     """
     Compute the NPV given an array of cash flows and a discount rate.
 

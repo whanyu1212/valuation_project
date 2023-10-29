@@ -16,7 +16,7 @@ def generate_sidebar():
             )
 
             cost_of_equity = st.number_input(
-                "Cost of Equity", min_value=0.0, max_value=1.0, value=0.08
+                "Cost of Equity", min_value=0.0, max_value=1.0, value=0.12
             )
 
         with c1:
@@ -25,7 +25,7 @@ def generate_sidebar():
             )
 
             interest_rate = st.number_input(
-                "Interest Rate", min_value=0.0, max_value=1.0, value=0.05
+                "Interest Rate", min_value=0.0, max_value=1.0, value=0.10
             )
             st.text("")
         st.markdown("#### Planet Karaoke Pub Inputs:")
