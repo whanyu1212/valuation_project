@@ -329,5 +329,9 @@ with tab4:
 
     st.text("")
     st.markdown(
-        """The Profitability Index (PI) serves as a crucial indicator of a project's potential return in relation to its initial investment. Essentially, it quantifies the present value of future cash flows per unit of investment, allowing us to gauge the relative value delivered by each project. A PI greater than 1 suggests that the project is expected to generate more value than its initial cost, making it a viable investment option. Conversely, a PI less than 1 indicates that the project might not yield adequate returns compared to its investment. By comparing the PIs of two projects, we can swiftly determine which project offers better value for every dollar invested, facilitating more informed and strategic investment decisions. """
+        """The Profitability Index (PI) serves as a crucial indicator of a project's potential return
+        in relation to its initial investment. Essentially, it quantifies the present value of future 
+        cash flows per unit of investment, allowing us to gauge the relative value delivered by each project. 
+        Based on the values calculated above, we can see that **Beach Karaoke Pub** has a slightly 
+        higher PI than **Planet Karaoke Pub**. """
     )

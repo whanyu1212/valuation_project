@@ -2,19 +2,7 @@ import plotly.graph_objects as go
 
 
 def compute_discounted_cash_flow(cash_flow, discount_rate):
-    """
-    Compute the discounted cash flow for each period.
-
-    Parameters:
-    - cash_flow (list): List of cash flows, starting with the initial investment.
-    - discount_rate (float): Annual discount rate in decimal form (e.g., 0.05 for 5%).
-
-    Returns:
-    - List of discounted cash flows.
-    """
-    discounted_cash_flows = [
-        cash_flow[0]
-    ]  # First cash flow (initial investment) is not discounted
+    discounted_cash_flows = [cash_flow[0]]
     for i, cf in enumerate(cash_flow[1:]):
         dcf = cf / (1 + discount_rate) ** (i + 1)
         discounted_cash_flows.append(dcf)
@@ -22,17 +10,6 @@ def compute_discounted_cash_flow(cash_flow, discount_rate):
 
 
 def create_waterfall_chart(cash_flow, discount_rate, project_name="Project"):
-    """
-    Create a waterfall chart given a list of cash flows.
-
-    Parameters:
-    - cash_flow (list): List of cash flows starting with the initial investment (which is typically negative).
-    - discount_rate (float): Annual discount rate in decimal form (e.g., 0.05 for 5%).
-    - project_name (str): Name of the project for labeling purposes.
-
-    Returns:
-    - fig (go.Figure): Plotly Figure object with the waterfall chart.
-    """
     discounted_cash_flows = compute_discounted_cash_flow(cash_flow, discount_rate)
     print(discounted_cash_flows)
     start_value = 0
@@ -40,14 +17,12 @@ def create_waterfall_chart(cash_flow, discount_rate, project_name="Project"):
     end_value = sum(discounted_cash_flows)
     values.append(end_value)
 
-    # Names for each bar in the waterfall chart
     labels = [
         "Before investment",
         *["Year {}".format(i) for i in range(len(cash_flow))],
         "End of project",
     ]
 
-    # Create the waterfall chart
     fig = go.Figure(
         go.Waterfall(
             name=project_name,
@@ -64,7 +39,6 @@ def create_waterfall_chart(cash_flow, discount_rate, project_name="Project"):
     )
 
     fig.update_layout(title=project_name, height=600)
-    # You can also add additional formatting, titles, or other customizations here
 
     return fig
 
@@ -100,17 +74,14 @@ def plot_irr_gauge(irr_value, project_name="Project"):
 
 
 def plot_payback_period(cashflows, project_name="Project"):
-    # Calculate cumulative cash flows
     cumulative_cashflows = [sum(cashflows[: i + 1]) for i in range(len(cashflows))]
 
-    # Determine payback period
     payback_period = None
     for i, val in enumerate(cumulative_cashflows):
         if val >= 0:
             payback_period = i
             break
 
-    # Plotting
     fig = go.Figure()
 
     fig.add_trace(
@@ -122,7 +93,6 @@ def plot_payback_period(cashflows, project_name="Project"):
         )
     )
 
-    # Highlight payback period
     if payback_period is not None:
         fig.add_shape(
             type="line",
