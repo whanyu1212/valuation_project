@@ -21,6 +21,7 @@ from util.charts import (
     plot_irr_gauge,
     plot_payback_period,
 )
+from statistics import mean
 
 st.set_page_config(layout="wide")
 
@@ -101,7 +102,7 @@ st.subheader("Comparisons")
 
 # tab1, tab2, tab3, tab4 = st.tabs(["Cash Flow Trend", "NPV", "IRR", "Payback Period"])
 
-selected = pills("", ["NPV", "IRR", "Payback Period"], ["💲", "🔣", "	💹"])
+selected = pills("", ["NPV", "IRR", "Payback Period","ROI"], ["💲", "🔣", "💹", ""])
 
 if selected == "NPV":
     plot_col1, plot_col2 = st.columns(2)
@@ -133,3 +134,65 @@ if selected == "Payback Period":
     with plot_col2:
         pp = plot_payback_period(beach_cash_flow, "Beach Karaoke Pub")
         st.plotly_chart(pp, use_container_width=True, theme="streamlit")
+        
+if selected == "ROI":
+    initial_investment = planet_cash_flow[0]
+
+    planet_roi_each_year = []
+
+    for i in range(1, len(planet_cash_flow)):
+        roi = (planet_cash_flow[i] / abs(initial_investment)) * 100  # Using abs() to ensure the initial investment is positive
+        planet_roi_each_year.append(roi)
+    planet_mean_roi = mean(planet_roi_each_year)
+    
+    initial_investment = beach_cash_flow[0]
+
+    beach_roi_each_year = []
+
+    for i in range(1, len(beach_cash_flow)):
+        roi = (beach_cash_flow[i] / abs(initial_investment)) * 100  # Using abs() to ensure the initial investment is positive
+        beach_roi_each_year.append(roi)
+        
+    beach_mean_roi = mean(beach_roi_each_year)
+    
+    fig = go.Figure(
+        go.Scatter(x=[0, 1], y=[0, 1], mode="markers", marker=dict(opacity=0))
+    )
+
+    # Add annotations (numbers) for the PI of both projects
+    fig.add_annotation(
+        x=0.25,
+        y=0.5,
+        text=f"Planet Karaoke Pub<br>ROI: {planet_mean_roi}%",
+        showarrow=False,
+        font=dict(size=24),
+    )
+
+    fig.add_annotation(
+        x=0.75,
+        y=0.5,
+        text=f"Beach Karaoke Pub<br>ROI: {beach_mean_roi}%",
+        showarrow=False,
+        font=dict(size=24),
+    )
+
+    # Update layout to hide axis and set title
+    fig.update_layout(
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        title="Comparison of Average ROI",
+    )
+
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
+    
+    years = [f"Year {i}" for i in range(1, len(planet_roi_each_year) + 1)]
+
+    # Creating the plot
+    fig = go.Figure(data=[go.Line(x=years, y=planet_roi_each_year)])
+
+    # Updating the layout
+    fig.update_layout(title='Yearly ROI',
+                    xaxis_title='Year',
+                    yaxis_title='ROI (%)')
+    
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
