@@ -1,50 +1,6 @@
 import plotly.graph_objects as go
 
 
-# def create_waterfall_chart(cash_flow, npv, project_name="Project"):
-#     """
-#     Create a waterfall chart given a list of cash flows.
-
-#     Parameters:
-#     - cash_flow (list): List of cash flows excluding the starting value (which is assumed to be 0).
-#     - project_name (str): Name of the project for labeling purposes.
-
-#     Returns:
-#     - fig (go.Figure): Plotly Figure object with the waterfall chart.
-#     """
-#     start_value = 0
-#     values = [start_value] + cash_flow
-#     # end_value = sum(cash_flow)
-#     end_value = npv
-#     values.append(end_value)
-
-#     # Names for each bar in the waterfall chart
-#     labels = [
-#         "Before investment",
-#         *["Year {}".format(i) for i in range(len(cash_flow))],
-#         "End of project",
-#     ]
-
-#     # Create the waterfall chart
-#     fig = go.Figure(
-#         go.Waterfall(
-#             name=project_name,
-#             orientation="v",
-#             measure=["absolute"] + ["relative" for _ in cash_flow] + ["total"],
-#             x=labels,
-#             textposition="outside",
-#             text=[f"${v}" for v in values],
-#             y=values,
-#             connector={"line": {"color": "rgb(63, 63, 63)"}},
-#         )
-#     )
-
-#     fig.update_layout(title=project_name, height=600)
-#     # You can also add additional formatting, titles, or other customizations here
-
-#     return fig
-
-
 def compute_discounted_cash_flow(cash_flow, discount_rate):
     """
     Compute the discounted cash flow for each period.

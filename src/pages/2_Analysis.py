@@ -65,7 +65,6 @@ st.info(analysis_description)
 st.text("")
 st.markdown("###### Formula:")
 st.latex(npv_irr_payback)
-st.write("WACC: ", wacc)
 st.text("")
 st.text("")
 st.text("")
@@ -100,9 +99,8 @@ beach_payback_period = compute_payback_period(beach_cash_flow)
 
 st.subheader("Comparisons")
 
-# tab1, tab2, tab3, tab4 = st.tabs(["Cash Flow Trend", "NPV", "IRR", "Payback Period"])
 
-selected = pills("", ["NPV", "IRR", "Payback Period","ROI"], ["💲", "🔣", "💹", ""])
+selected = pills("", ["NPV", "IRR", "Payback Period","ROI"], ["💲", "🔣", "💹", "💸"])
 
 if selected == "NPV":
     plot_col1, plot_col2 = st.columns(2)
@@ -155,44 +153,72 @@ if selected == "ROI":
         
     beach_mean_roi = mean(beach_roi_each_year)
     
-    fig = go.Figure(
+    col1, col2 = st.columns(2)
+    with col1:
+        years = [f"Year {i}" for i in range(1, len(planet_roi_each_year) + 1)]
+
+        # Creating the plot
+        fig = go.Figure(data=[go.Line(x=years, y=planet_roi_each_year)])
+
+        # Updating the layout
+        fig.update_layout(title='ROI Trend for Planet Karaoke Pub',
+                        xaxis_title='Year',
+                        yaxis_title='ROI (%)')
+        
+        st.plotly_chart(fig, use_container_width=True, theme="streamlit")
+        
+        years = [f"Year {i}" for i in range(1, len(beach_roi_each_year) + 1)]
+
+        # Creating the plot
+        fig2= go.Figure(data=[go.Line(x=years, y=beach_roi_each_year)])
+
+        # Updating the layout
+        fig2.update_layout(title='ROI Trend for Beach Karaoke Pub',
+                        xaxis_title='Year',
+                        yaxis_title='ROI (%)')
+        
+        st.plotly_chart(fig2, use_container_width=True, theme="streamlit")
+        
+    
+    with col2:
+        fig = go.Figure(
         go.Scatter(x=[0, 1], y=[0, 1], mode="markers", marker=dict(opacity=0))
-    )
+        )
 
-    # Add annotations (numbers) for the PI of both projects
-    fig.add_annotation(
-        x=0.25,
-        y=0.5,
-        text=f"Planet Karaoke Pub<br>ROI: {planet_mean_roi}%",
-        showarrow=False,
-        font=dict(size=24),
-    )
-
-    fig.add_annotation(
-        x=0.75,
-        y=0.5,
-        text=f"Beach Karaoke Pub<br>ROI: {beach_mean_roi}%",
-        showarrow=False,
-        font=dict(size=24),
-    )
-
-    # Update layout to hide axis and set title
-    fig.update_layout(
+        fig.add_annotation(
+            x=0.5,
+            y=0.5,
+            text=f"Planet Karaoke Pub<br>ROI: {planet_mean_roi}%",
+            showarrow=False,
+            font=dict(size=24),
+        )
+        fig.update_layout(
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        title="Comparison of Average ROI",
+        height=600
+        # title="Comparison of Average ROI",
     )
 
-    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
-    
-    years = [f"Year {i}" for i in range(1, len(planet_roi_each_year) + 1)]
+        st.plotly_chart(fig, use_container_width=True, theme="streamlit")
+        
+        fig2 = go.Figure(
+        go.Scatter(x=[0, 1], y=[0, 1], mode="markers", marker=dict(opacity=0))
+        )
 
-    # Creating the plot
-    fig = go.Figure(data=[go.Line(x=years, y=planet_roi_each_year)])
+        fig2.add_annotation(
+            x=0.5,
+            y=0.5,
+            text=f"Beach Karaoke Pub<br>ROI: {beach_mean_roi}%",
+            showarrow=False,
+            font=dict(size=24),
+        )
+        fig2.update_layout(
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        # title="Comparison of Average ROI",
+    )
 
-    # Updating the layout
-    fig.update_layout(title='Yearly ROI',
-                    xaxis_title='Year',
-                    yaxis_title='ROI (%)')
-    
-    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
+        st.plotly_chart(fig2, use_container_width=True, theme="streamlit")
+        
+
+

@@ -26,7 +26,7 @@ from util.create_df import (
 import plotly.graph_objects as go
 import plotly.express as px
 import numpy as np
-import statsmodels.api as sm
+from statistics import mean
 
 st.set_page_config(layout="wide")
 st_lottie(
@@ -87,6 +87,29 @@ beach_irr = compute_IRR(beach_cash_flow)
 planet_payback_period = compute_payback_period(planet_cash_flow)
 beach_payback_period = compute_payback_period(beach_cash_flow)
 
+initial_investment = planet_cash_flow[0]
+
+planet_roi_each_year = []
+
+for i in range(1, len(planet_cash_flow)):
+    roi = (
+        planet_cash_flow[i] / abs(initial_investment)
+    ) * 100  # Using abs() to ensure the initial investment is positive
+    planet_roi_each_year.append(roi)
+planet_mean_roi = mean(planet_roi_each_year)
+
+initial_investment = beach_cash_flow[0]
+
+beach_roi_each_year = []
+
+for i in range(1, len(beach_cash_flow)):
+    roi = (
+        beach_cash_flow[i] / abs(initial_investment)
+    ) * 100  # Using abs() to ensure the initial investment is positive
+    beach_roi_each_year.append(roi)
+
+beach_mean_roi = mean(beach_roi_each_year)
+
 
 df_normalized = normalize_values(
     npv_A=planet_npv,
@@ -95,11 +118,13 @@ df_normalized = normalize_values(
     irr_B=beach_irr,
     payback_A=planet_payback_period,
     payback_B=beach_payback_period,
+    roi_A=planet_mean_roi,
+    roi_B=beach_mean_roi,
 )
 
 df_long = df_normalized.melt(
     id_vars=["Project"],
-    value_vars=["NPV", "IRR", "Payback"],
+    value_vars=["NPV", "IRR", "Payback", "ROI"],
     var_name="Metric",
     value_name="Value",
 )
@@ -130,7 +155,7 @@ st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 
 st.info(evaluation_description)
 st.text("")
-st.subheader("Complementary Metrics")
+st.subheader("Other Metrics to Consider")
 tab1, tab2, tab3, tab4 = st.tabs(
     [
         "Sensitivity Analysis",
@@ -159,7 +184,7 @@ with tab1:
             x=wacc_values,
             y=npvs_project1,
             mode="lines+markers",
-            name="Project 1",
+            name="Planet Karaoke Pub",
             line=dict(width=3, color="blue"),
         )
     )
@@ -170,7 +195,7 @@ with tab1:
             x=wacc_values,
             y=npvs_project2,
             mode="lines+markers",
-            name="Project 2",
+            name="Beach Karaoke Pub",
             line=dict(width=3, color="red"),
         )
     )
@@ -262,7 +287,12 @@ with tab3:
     )
     st.plotly_chart(fig, use_container_width=True, theme="streamlit")
     st.markdown(
-        """The Effective Annual Annuity (EAA) is a valuable metric that allows us to convert the net present value (NPV) of a project into an equivalent constant yearly cash flow over the project's life. By analyzing the EAA, we can discern the uniform annual amount an investor can expect to receive over the project duration, making it easier to compare projects of varying lengths and cash flow patterns. In our analysis, a higher EAA indicates a project that, on an annualized basis, delivers superior value, enabling stakeholders to make informed decisions grounded in consistent, annualized terms"""
+        """By converting the net present value (NPV) of each project 
+            into an equivalent annual amount, it's easier to compare them 
+            on an "apples-to-apples" basis. The one with the higher EAA is
+            seen as the more attractive investment option. However,
+            it does not capture the risk profile of each project, and since it
+            is a derived metric from NPV, it is also subject to the same limitations"""
     )
 with tab4:
     planet_pi = profitability_index(planet_cash_flow, wacc)
@@ -275,7 +305,7 @@ with tab4:
     fig.add_annotation(
         x=0.25,
         y=0.5,
-        text=f"Project A<br>PI: {planet_pi}",
+        text=f"Planet Karaoke Pub<br>PI: {planet_pi}",
         showarrow=False,
         font=dict(size=24),
     )
@@ -283,7 +313,7 @@ with tab4:
     fig.add_annotation(
         x=0.75,
         y=0.5,
-        text=f"Project B<br>PI: {beach_pi}",
+        text=f"Beach Karaoke Pub<br>PI: {beach_pi}",
         showarrow=False,
         font=dict(size=24),
     )
@@ -296,6 +326,8 @@ with tab4:
     )
 
     st.plotly_chart(fig, use_container_width=True, theme="streamlit")
+
+    st.text("")
     st.markdown(
         """The Profitability Index (PI) serves as a crucial indicator of a project's potential return in relation to its initial investment. Essentially, it quantifies the present value of future cash flows per unit of investment, allowing us to gauge the relative value delivered by each project. A PI greater than 1 suggests that the project is expected to generate more value than its initial cost, making it a viable investment option. Conversely, a PI less than 1 indicates that the project might not yield adequate returns compared to its investment. By comparing the PIs of two projects, we can swiftly determine which project offers better value for every dollar invested, facilitating more informed and strategic investment decisions. """
     )
