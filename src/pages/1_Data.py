@@ -1,9 +1,6 @@
-import pandas as pd
 import streamlit as st
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, DataReturnMode, JsCode
-from streamlit_extras.colored_header import colored_header
+from st_aggrid import AgGrid, GridOptionsBuilder
 from streamlit_extras.stylable_container import stylable_container
-from streamlit_lottie import st_lottie
 from util.create_df import (
     compute_financials_planet,
     transpose_and_format_planet,
@@ -13,14 +10,6 @@ from util.create_df import (
 from util.sidebar import generate_sidebar
 
 st.set_page_config(layout="wide")
-
-# st.lottie(
-#     "https://lottie.host/d377029b-f163-4e75-ac57-53ee2433b870/8v3sihrhak.json",
-#     height=300,
-#     width=800,
-#     speed=1,
-#     key="initial",
-# )
 # * Side bar content
 
 # Generate the sidebar and get the values

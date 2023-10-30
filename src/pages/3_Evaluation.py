@@ -1,10 +1,9 @@
 import pandas as pd
 import streamlit as st
-from annotated_text import annotated_text
+import plotly.graph_objects as go
+import plotly.express as px
+import numpy as np
 from streamlit_extras.colored_header import colored_header
-from streamlit_extras.metric_cards import style_metric_cards
-from streamlit_extras.stylable_container import stylable_container
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, DataReturnMode, JsCode
 from streamlit_lottie import st_lottie
 from util.markdown_latex import evaluation_description
 from util.sidebar import generate_sidebar
@@ -23,9 +22,6 @@ from util.create_df import (
     transpose_and_format_beach,
     normalize_values,
 )
-import plotly.graph_objects as go
-import plotly.express as px
-import numpy as np
 from statistics import mean
 
 st.set_page_config(layout="wide")
@@ -263,7 +259,8 @@ we aim to provide a standardized comparison over a **common time horizon**.
 By extending the cash flows of each project to match the **LCM duration**, 
 we essentially simulate multiple cycles of the project without repeating the initial investment. 
 The extended cash flows allow us to calculate metrics like **NPV** over the same time frame, 
-offering a more equitable basis for comparison. 
+offering a more equitable basis for comparison. Based on the values calculated above,
+we can see that **Beach Karaoke Pub** has a higher NPV than **Planet Karaoke Pub**.
 """
     )
 
