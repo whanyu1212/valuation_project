@@ -89,16 +89,20 @@ beach_payback_period = compute_payback_period(beach_cash_flow)
 st.subheader("Comparisons")
 
 
-selected = pills("", ["NPV", "IRR", "Payback Period","ROI"], ["💲", "🔣", "💹", "💸"])
+selected = pills("", ["NPV", "IRR", "Payback Period", "ROI"], ["💲", "🔣", "💹", "💸"])
 
 if selected == "NPV":
     plot_col1, plot_col2 = st.columns(2)
     with plot_col1:
-        waterfall_fig = create_waterfall_chart(planet_cash_flow, wacc, "Planet Karaoke Pub")
+        waterfall_fig = create_waterfall_chart(
+            planet_cash_flow, wacc, "Planet Karaoke Pub"
+        )
         st.plotly_chart(waterfall_fig, use_container_width=True, theme="streamlit")
 
     with plot_col2:
-        waterfall_fig = create_waterfall_chart(beach_cash_flow, wacc, "Beach Karaoke Pub")
+        waterfall_fig = create_waterfall_chart(
+            beach_cash_flow, wacc, "Beach Karaoke Pub"
+        )
         st.plotly_chart(waterfall_fig, use_container_width=True, theme="streamlit")
 
 
@@ -121,27 +125,31 @@ if selected == "Payback Period":
     with plot_col2:
         pp = plot_payback_period(beach_cash_flow, "Beach Karaoke Pub")
         st.plotly_chart(pp, use_container_width=True, theme="streamlit")
-        
+
 if selected == "ROI":
     initial_investment = planet_cash_flow[0]
 
     planet_roi_each_year = []
 
     for i in range(1, len(planet_cash_flow)):
-        roi = (planet_cash_flow[i] / abs(initial_investment)) * 100  # Using abs() to ensure the initial investment is positive
+        roi = (
+            planet_cash_flow[i] / abs(initial_investment)
+        ) * 100  # Using abs() to ensure the initial investment is positive
         planet_roi_each_year.append(roi)
     planet_mean_roi = mean(planet_roi_each_year)
-    
+
     initial_investment = beach_cash_flow[0]
 
     beach_roi_each_year = []
 
     for i in range(1, len(beach_cash_flow)):
-        roi = (beach_cash_flow[i] / abs(initial_investment)) * 100  # Using abs() to ensure the initial investment is positive
+        roi = (
+            beach_cash_flow[i] / abs(initial_investment)
+        ) * 100  # Using abs() to ensure the initial investment is positive
         beach_roi_each_year.append(roi)
-        
+
     beach_mean_roi = mean(beach_roi_each_year)
-    
+
     col1, col2 = st.columns(2)
     with col1:
         years = [f"Year {i}" for i in range(1, len(planet_roi_each_year) + 1)]
@@ -149,65 +157,44 @@ if selected == "ROI":
         # Creating the plot
         fig = go.Figure(data=[go.Line(x=years, y=planet_roi_each_year)])
 
+        fig.add_annotation(
+            x=0.5,
+            y=35,
+            text=f"Planet Karaoke Pub<br>ROI: {planet_mean_roi}%",
+            showarrow=False,
+            font=dict(size=15),
+        )
+
         # Updating the layout
-        fig.update_layout(title='ROI Trend for Planet Karaoke Pub',
-                        xaxis_title='Year',
-                        yaxis_title='ROI (%)')
-        
+        fig.update_layout(
+            title="ROI Trend for Planet Karaoke Pub",
+            xaxis_title="Year",
+            yaxis_title="ROI (%)",
+            height=500,
+        )
+
         st.plotly_chart(fig, use_container_width=True, theme="streamlit")
-        
+
+    with col2:
         years = [f"Year {i}" for i in range(1, len(beach_roi_each_year) + 1)]
 
         # Creating the plot
-        fig2= go.Figure(data=[go.Line(x=years, y=beach_roi_each_year)])
-
-        # Updating the layout
-        fig2.update_layout(title='ROI Trend for Beach Karaoke Pub',
-                        xaxis_title='Year',
-                        yaxis_title='ROI (%)')
-        
-        st.plotly_chart(fig2, use_container_width=True, theme="streamlit")
-        
-    
-    with col2:
-        fig = go.Figure(
-        go.Scatter(x=[0, 1], y=[0, 1], mode="markers", marker=dict(opacity=0))
-        )
-
-        fig.add_annotation(
-            x=0.5,
-            y=0.5,
-            text=f"Planet Karaoke Pub<br>ROI: {planet_mean_roi}%",
-            showarrow=False,
-            font=dict(size=24),
-        )
-        fig.update_layout(
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        height=600
-        # title="Comparison of Average ROI",
-    )
-
-        st.plotly_chart(fig, use_container_width=True, theme="streamlit")
-        
-        fig2 = go.Figure(
-        go.Scatter(x=[0, 1], y=[0, 1], mode="markers", marker=dict(opacity=0))
-        )
+        fig2 = go.Figure(data=[go.Line(x=years, y=beach_roi_each_year)])
 
         fig2.add_annotation(
-            x=0.5,
-            y=0.5,
+            x=0.3,
+            y=33,
             text=f"Beach Karaoke Pub<br>ROI: {beach_mean_roi}%",
             showarrow=False,
-            font=dict(size=24),
+            font=dict(size=15),
         )
+
+        # Updating the layout
         fig2.update_layout(
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-        # title="Comparison of Average ROI",
-    )
+            title="ROI Trend for Beach Karaoke Pub",
+            xaxis_title="Year",
+            yaxis_title="ROI (%)",
+            height=500,
+        )
 
         st.plotly_chart(fig2, use_container_width=True, theme="streamlit")
-        
-
-
