@@ -24,7 +24,7 @@ from util.create_df import (
 )
 from statistics import mean
 
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 st_lottie(
     "https://lottie.host/40f2b045-cfe3-48c1-99fb-8d9d959fad39/HZEetoX5H1.json",
     height=300,

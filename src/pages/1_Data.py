@@ -9,7 +9,7 @@ from util.create_df import (
 )
 from util.sidebar import generate_sidebar
 
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 # * Side bar content
 
 # Generate the sidebar and get the values
