@@ -103,7 +103,7 @@ with side:
 
 
 # * Capital Structure
-c0, c1, c2 = st.columns([0.9, 1, 4])
+c0, c1, c2 = st.columns([1, 1, 4])
 with c0:
     with stylable_container(
         key="container_with_border",

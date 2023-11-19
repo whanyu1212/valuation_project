@@ -2,41 +2,66 @@ import numpy as np
 from scipy.optimize import fsolve
 
 
-def compute_NPV(cash_flows, discount_rate):
-    """
-    Compute the NPV given an array of cash flows and a discount rate.
+def validate_cash_flows(cash_flows):
+    """Validate cash flows.
 
-    Parameters:
-    - cash_flows (list or array): An array of cash flows where the index represents the time period (starting from 0).
-    - discount_rate (float): The discount rate as a fraction (e.g., 0.05 for 5%).
+    Args:
+        cash_flows (list): a list of annual cash flows
+
+    Raises:
+        ValueError: If cash_flows is not a list of numbers
+    """
+    if not isinstance(cash_flows, list) or not all(
+        isinstance(i, (int, float)) for i in cash_flows
+    ):
+        raise ValueError("cash_flows must be a list of numbers")
+
+
+def compute_NPV(cash_flows: list, discount_rate: float) -> float:
+    """Compute NPV based on cash flows and discount rate.
+
+    Args:
+        cash_flows (list): a list of annual cash flows
+        discount_rate (float): discount rate applied to cash flows
 
     Returns:
-    - float: The computed NPV.
+        float: NPV of the cash flows
     """
+    if not isinstance(cash_flows, list) or not all(
+        isinstance(i, (int, float)) for i in cash_flows
+    ):
+        raise ValueError("cash_flows must be a list of numbers")
+    if not isinstance(discount_rate, (int, float)):
+        raise ValueError("discount_rate must be a number")
+
     npv = cash_flows[0] + sum(
         [cf / (1 + discount_rate) ** t for t, cf in enumerate(cash_flows[1:], start=1)]
     )
     return npv
 
 
-def compute_IRR(cash_flows):
-    """
-    Compute the IRR given an array of cash flows.
+def compute_IRR(cash_flows: list) -> float:
+    """Compute IRR based on cash flows.
 
-    Parameters:
-    - cash_flows (list or array): An array of cash flows where the index represents the time period (starting from 0).
+    Args:
+        cash_flows (list): a list of annual cash flows
 
     Returns:
-    - float: The computed IRR as a fraction (e.g., 0.05 for 5%).
+        float: IRR of the cash flows
     """
+    if not isinstance(cash_flows, list) or not all(
+        isinstance(i, (int, float)) for i in cash_flows
+    ):
+        raise ValueError("cash_flows must be a list of numbers")
 
     # Define the NPV function with rate as the variable to solve for
-    def npv(rate):
-        discounted_cashflows = [cf / (1 + rate) ** i for i, cf in enumerate(cash_flows)]
-        return np.sum(discounted_cashflows)
+    npv = lambda rate: np.sum([cf / (1 + rate) ** i for i, cf in enumerate(cash_flows)])
 
     # Use fsolve to find the root (IRR)
-    irr = fsolve(npv, 0.1)[0]  # 0.1 is an initial guess
+    try:
+        irr = fsolve(npv, 0.1)[0]  # 0.1 is an initial guess
+    except Exception as e:
+        raise RuntimeError("Failed to compute IRR") from e
     return irr
 
 

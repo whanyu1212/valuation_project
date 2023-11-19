@@ -19,8 +19,6 @@ from util.charts import (
 )
 from statistics import mean
 
-# st.set_page_config(layout="wide")
-
 
 ##########################################################################################
 # * Side bar content
