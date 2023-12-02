@@ -2,19 +2,20 @@ import numpy as np
 from scipy.optimize import fsolve
 
 
-def validate_cash_flows(cash_flows):
-    """Validate cash flows.
+class Validator:
+    @staticmethod
+    def validate_cash_flows(cash_flows):
+        if not isinstance(cash_flows, list) or not all(
+            isinstance(i, (int, float)) for i in cash_flows
+        ):
+            raise ValueError("cash_flows must be a list of numbers")
 
-    Args:
-        cash_flows (list): a list of annual cash flows
-
-    Raises:
-        ValueError: If cash_flows is not a list of numbers
-    """
-    if not isinstance(cash_flows, list) or not all(
-        isinstance(i, (int, float)) for i in cash_flows
-    ):
-        raise ValueError("cash_flows must be a list of numbers")
+    @staticmethod
+    def validate_discount_rate(discount_rate):
+        if not isinstance(discount_rate, (int, float)):
+            raise ValueError("discount_rate must be a number")
+        if not 0 <= discount_rate <= 1:
+            raise ValueError("discount_rate must be between 0 and 1")
 
 
 def compute_NPV(cash_flows: list, discount_rate: float) -> float:
@@ -27,12 +28,8 @@ def compute_NPV(cash_flows: list, discount_rate: float) -> float:
     Returns:
         float: NPV of the cash flows
     """
-    if not isinstance(cash_flows, list) or not all(
-        isinstance(i, (int, float)) for i in cash_flows
-    ):
-        raise ValueError("cash_flows must be a list of numbers")
-    if not isinstance(discount_rate, (int, float)):
-        raise ValueError("discount_rate must be a number")
+    Validator.validate_cash_flows(cash_flows)
+    Validator.validate_discount_rate(discount_rate)
 
     npv = cash_flows[0] + sum(
         [cf / (1 + discount_rate) ** t for t, cf in enumerate(cash_flows[1:], start=1)]
@@ -49,10 +46,7 @@ def compute_IRR(cash_flows: list) -> float:
     Returns:
         float: IRR of the cash flows
     """
-    if not isinstance(cash_flows, list) or not all(
-        isinstance(i, (int, float)) for i in cash_flows
-    ):
-        raise ValueError("cash_flows must be a list of numbers")
+    Validator.validate_cash_flows(cash_flows)
 
     # Define the NPV function with rate as the variable to solve for
     npv = lambda rate: np.sum([cf / (1 + rate) ** i for i, cf in enumerate(cash_flows)])
@@ -65,7 +59,7 @@ def compute_IRR(cash_flows: list) -> float:
     return irr
 
 
-def compute_payback_period(cash_flows):
+def compute_payback_period(cash_flows: list) -> float:
     """
     Compute the payback period given an array of cash flows.
 
@@ -75,15 +69,15 @@ def compute_payback_period(cash_flows):
     Returns:
     - int: The payback period rounded to the nearest whole number.
     """
+    Validator.validate_cash_flows(cash_flows)
     initial_investment = abs(cash_flows[0])
-    running_total = 0
+    cumulative_cash_flow = 0
 
-    for i, cash_flow in enumerate(cash_flows[1:]):
-        running_total += cash_flow
-        if running_total >= initial_investment:
-            # Return the year (i+1 since we started counting from 1)
-            return i + 1
-    # If payback period is not achieved within the given period
+    for period, cash_flow in enumerate(cash_flows[1:], start=1):
+        cumulative_cash_flow += cash_flow
+        if cumulative_cash_flow >= initial_investment:
+            return period
+
     return None
 
 
